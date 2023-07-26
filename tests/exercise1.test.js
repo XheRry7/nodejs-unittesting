@@ -6,7 +6,6 @@ describe("fizz Buzz exercise", () => {
       exercise1.fizzBuzz("a")
     }).toThrow();
   });
-
   it("should return FizzBuzz for the number divisible by 3", () => {
     const res = exercise1.fizzBuzz(15);
     expect(res).toBe("FizzBuzz");
@@ -19,7 +18,7 @@ describe("fizz Buzz exercise", () => {
     const res = exercise1.fizzBuzz(10);
     expect(res).toBe("Buzz");
   });
-  it('shpuld return the input if the input is neither divisible by 3 or 5 or by both.',()=>{
+  it('should return the input if the input is neither divisible by 3 or 5 or by both.',()=>{
     const res = exercise1.fizzBuzz(8);
     expect(res).toBe(8);
   })

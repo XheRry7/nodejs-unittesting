@@ -1,4 +1,6 @@
 const lib = require("../lib");
+const db = require("../db");
+const mail = require("../mail");
 
 // testing numbers
 describe("absolute", () => {
@@ -68,17 +70,43 @@ describe("get Products", () => {
   });
 });
 
-
 // falsy values in js : Null, undefined, NaN, '', 0, false
-
-
 // testing exception
-describe('registerUser', ()=>{
-    it('should throw exception',()=>{
-        expect(()=>{ lib.registerUser(null)}).toThrow('Username is required.')
-    })
-    it('should return an object',()=>{
-        const res = lib.registerUser('Shehryar');
-        expect(res).toHaveProperty("username", 'Shehryar')
-    })
-})
+describe("registerUser", () => {
+  it("should throw exception", () => {
+    expect(() => {
+      lib.registerUser(null);
+    }).toThrow("Username is required.");
+  });
+  it("should return an object", () => {
+    const res = lib.registerUser("Shehryar");
+    expect(res).toHaveProperty("username", "Shehryar");
+  });
+});
+
+// testing mock functions
+describe("mock function testing", () => {
+  db.getCustomerSync = function (id) {
+    console.log("Reading fake customers...");
+    return { id: id, points: 11 };
+  };
+  it("should give 10% discount to the users", () => {
+    const order = {
+      customerId: 1,
+      totalPrice: 10,
+    };
+    lib.applyDiscount(order);
+    expect(order.totalPrice).toBe(9);
+  });
+});
+
+// mock functions jest
+describe("NotifyCustomers", () => {
+  db.getCustomerSync = jest.fn().mockReturnValue({email: 'a'})
+  mail.send = jest.fn()
+
+  lib.notifyCustomer({ customerId: 1 });
+
+  expect(mail.send).toHaveBeenCalled();
+  expect(mail.send.mock.calls[0][1]).toMatch(/order/)
+});
