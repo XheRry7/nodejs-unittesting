@@ -75,7 +75,7 @@ describe("get Products", () => {
 // testing exception
 describe('registerUser', ()=>{
     it('should throw exception',()=>{
-        expect(()=>{ lib.registerUser()}).toThrow('Username is required.')
+        expect(()=>{ lib.registerUser(null)}).toThrow('Username is required.')
     })
     it('should return an object',()=>{
         const res = lib.registerUser('Shehryar');
